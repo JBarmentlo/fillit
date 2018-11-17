@@ -11,7 +11,7 @@ CFLAGS=-Wall -Wextra -Werror -I $(LIBFT_DIR)/includes -I $(HEADERS_FOLDER)
 SOURCES=$(SOURCES_FOLDER)/main.c
 OUT=$(addprefix $(OBJ_FOLDER)/,$(notdir $(SOURCES:.c=.o)))
 
-all: preliminaire $(OUT)
+all: preliminaire
 	make $(NAME)
 
 preliminaire:
