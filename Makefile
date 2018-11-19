@@ -9,7 +9,8 @@ OBJ_FOLDER=out
 CFLAGS=-Wall -Wextra -Werror -I $(LIBFT_DIR)/includes -I $(HEADERS_FOLDER)
 
 SOURCES=$(SOURCES_FOLDER)/main.c \
-		$(SOURCES_FOLDER)/load_map.c
+		$(SOURCES_FOLDER)/load_map.c \
+		$(SOURCES_FOLDER)/tools.c
 OUT=$(addprefix $(OBJ_FOLDER)/,$(notdir $(SOURCES:.c=.o)))
 
 all: preliminaire

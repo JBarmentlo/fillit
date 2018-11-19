@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gtaja <gtaja@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/17 12:56:09 by gtaja             #+#    #+#             */
-/*   Updated: 2018/11/17 12:56:09 by gtaja            ###   ########.fr       */
+/*   Created: 2018/11/19 10:51:00 by gtaja             #+#    #+#             */
+/*   Updated: 2018/11/19 10:51:00 by gtaja            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
+#include "libft.h"
 
-t_list	*load_map(char *filename);
+void	ft_exit_error(void)
+{
+	ft_putstr("error\n");
+	exit(0);
+}
 
-/*
-** tools.c
-*/
-void	ft_exit_error(void);
-void	ft_clearblocks(t_list *ls);
+void	ft_clearblocks(t_list *ls)
+{
+	t_list	*temp;
 
-#endif
+	while (ls != NULL)
+	{
+		temp = ls->next;
+		ft_matrix_free((t_matrix**)(&ls->content));
+		free(ls);
+		ls = temp;
+	}
+}
