@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-static int		ft_fill_block_line(t_matrix *block, char *line, int y)
+static int		ft_fill_block_line(t_matrix *block, char *line, int y, int index)
 {
 	unsigned int x;
 
@@ -25,7 +25,7 @@ static int		ft_fill_block_line(t_matrix *block, char *line, int y)
 		if (line[x] == '.')
 			block->data[x][y] = 0;
 		else if (line[x] == '#')
-			block->data[x][y] = 1;
+			block->data[x][y] = ft_pow(2, index);
 		else
 			ft_exit_error();
 		x++;
@@ -33,7 +33,7 @@ static int		ft_fill_block_line(t_matrix *block, char *line, int y)
 	return (1);
 }
 
-static t_matrix	*ft_readblock(int fd)
+static t_matrix	*ft_readblock(int fd, int index)
 {
 	t_matrix	*block;
 	int			i;
@@ -45,7 +45,7 @@ static t_matrix	*ft_readblock(int fd)
 		return (NULL);
 	while (++i < 4 && (len = ft_readline(fd, &line)) > 0)
 	{
-		if (ft_strlen(line) != 4 || !ft_fill_block_line(block, line, i))
+		if (ft_strlen(line) != 4 || !ft_fill_block_line(block, line, i, index))
 		{
 			free(line);
 			ft_matrix_free(&block);
@@ -85,12 +85,12 @@ static int		is_valid_block(t_matrix *block)
 		y = 0;
 		while (y < block->height)
 		{
-			if (block->data[x][y] == 1)
+			if (block->data[x][y] != 0)
 			{
-				if ((++count) && (x == 0 || block->data[x - 1][y] != 1)
-					&& (y == 0 || block->data[x][y - 1] != 1)
-					&& (x == block->width - 1 || block->data[x + 1][y] != 1)
-					&& (y == block->height - 1 || block->data[x][y + 1] != 1))
+				if ((++count) && (x == 0 || block->data[x - 1][y] == 0)
+					&& (y == 0 || block->data[x][y - 1] == 0)
+					&& (x == block->width - 1 || block->data[x + 1][y] == 0)
+					&& (y == block->height - 1 || block->data[x][y + 1] == 0))
 					return (0);
 			}
 			y++;
@@ -116,7 +116,7 @@ t_list			*load_map(char *filename)
 	count = 0;
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		return (NULL);
-	while ((block = ft_readblock(fd)) != NULL)
+	while ((block = ft_readblock(fd, count)) != NULL)
 	{
 		ft_readline(fd, &line);
 		if (line == NULL || ft_strlen(line) != 0 || !is_valid_block(block))

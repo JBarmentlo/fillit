@@ -20,5 +20,7 @@ t_list	*load_map(char *filename);
 */
 void	ft_exit_error(void);
 void	ft_clearblocks(t_list *ls);
+t_matrix    *ft_resolve(t_list *blocks, int iter);
+void ft_show_soluce(t_matrix *map);
 
 #endif
